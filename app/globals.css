@@ -1,1 +1,154 @@
 @import "tailwindcss";
+
+/* --- 1. THEME CONFIGURATION (Tailwind v4) --- */
+@theme {
+  /* Colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  --color-destructive: var(--destructive);
+  
+  /* Radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Animations */
+  --animate-blob: blob 7s infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  
+  @keyframes blob {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+}
+
+/* --- 2. COLOR VARIABLES (OKLCH for Vibrancy) --- */
+:root {
+  /* LIGHT MODE: Clean, crisp, with subtle violet tint */
+  --background: oklch(98% 0.01 260); /* White with tiny violet tint */
+  --foreground: oklch(20% 0.05 260); /* Deep Slate */
+  
+  --primary: oklch(55% 0.25 270); /* Electric Violet */
+  --primary-foreground: oklch(98% 0 0);
+  
+  --secondary: oklch(60% 0.2 300); /* Hot Magenta */
+  --secondary-foreground: oklch(98% 0 0);
+  
+  --accent: oklch(70% 0.15 200); /* Cyan */
+  --accent-foreground: oklch(20% 0.05 260);
+  
+  --card: oklch(100% 0 0);
+  --card-foreground: oklch(20% 0.05 260);
+  
+  --muted: oklch(95% 0.02 260);
+  --muted-foreground: oklch(50% 0.05 260);
+  
+  --border: oklch(90% 0.02 260);
+  --input: oklch(90% 0.02 260);
+  --ring: oklch(55% 0.25 270);
+  
+  --destructive: oklch(60% 0.2 20);
+  
+  --radius: 1rem;
+}
+
+/* DARK MODE: The "Studio Play" Aesthetic */
+.dark {
+  --background: oklch(15% 0.05 265); /* Deep Void Purple */
+  --foreground: oklch(95% 0.02 260);
+  
+  --primary: oklch(65% 0.25 270); /* Neon Violet */
+  --primary-foreground: oklch(100% 0 0);
+  
+  --secondary: oklch(65% 0.22 310); /* Neon Pink */
+  --secondary-foreground: oklch(100% 0 0);
+  
+  --accent: oklch(75% 0.18 190); /* Cyan Glow */
+  --accent-foreground: oklch(15% 0.05 265);
+  
+  --card: oklch(20% 0.06 265); /* Dark Glass */
+  --card-foreground: oklch(95% 0.02 260);
+  
+  --muted: oklch(25% 0.06 265);
+  --muted-foreground: oklch(70% 0.05 260);
+  
+  --border: oklch(30% 0.08 265);
+  --input: oklch(30% 0.08 265);
+  --ring: oklch(65% 0.25 270);
+}
+
+/* --- 3. BASE STYLES --- */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    
+    /* The "Studio" Mesh Gradient */
+    background-image: 
+      radial-gradient(circle at 15% 50%, color-mix(in srgb, var(--primary), transparent 90%) 0%, transparent 50%),
+      radial-gradient(circle at 85% 30%, color-mix(in srgb, var(--secondary), transparent 90%) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+}
+
+/* --- 4. UTILITIES (The Cool Stuff) --- */
+@layer utilities {
+  /* Glassmorphism Panel */
+  .glass-panel {
+    @apply bg-card/60 backdrop-blur-xl border border-white/10 shadow-2xl;
+  }
+
+  /* Gradient Text - FIXED: Removed 'animate-in fade-in' */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent;
+  }
+
+  /* Glowing Button */
+  .btn-gradient {
+    @apply bg-gradient-to-r from-primary to-secondary text-white shadow-lg hover:shadow-primary/50 transition-all hover:scale-[1.02] active:scale-95 font-bold;
+  }
+
+  /* Neon Glow for Cards */
+  .glow-effect {
+    @apply hover:shadow-[0_0_30px_-5px_var(--color-primary)] transition-shadow duration-500;
+  }
+  
+  /* Scrollbar Polish */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
